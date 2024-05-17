@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { Button } from "./ui/button";
 
 export default function Header() {
   return (
@@ -16,25 +18,13 @@ export default function Header() {
               home
             </Link>
           </li>
-          <li>
-            <Link
-              className="text-gray-500 transition-all hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-50"
-              href="#"
-            >
-              about
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="text-gray-500 transition-all hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-50"
-              href="#"
-            >
-              contact
-            </Link>
-          </li>
         </ul>
-
-        <ThemeToggle />
+        <div className="flex items-center justify-between gap-6">
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+          <ThemeToggle />
+        </div>
       </nav>
     </header>
   );
