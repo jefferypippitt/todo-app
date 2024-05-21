@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { Todo } from "@prisma/client";
-import TodoList from "@/components/TodoList";
 import { TodoForm } from "@/components/TodoForm";
 import { useUser } from "@clerk/nextjs";
 import { addTodo } from "@/app/actions/addTodo";
 import { deleteTodo } from "@/app/actions/deleteTodo";
+import { useToast } from "@/components/ui/use-toast";
+import { TodoTable } from "@/components/TodoTable";
 
 export default function Page() {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -54,7 +55,7 @@ export default function Page() {
         </p>
         
         <TodoForm onAdd={handleAddTodo} />
-        <TodoList todos={todos} onDelete={handleDeleteTodo} />
+        <TodoTable todos={todos} onDelete={handleDeleteTodo} />
       </div>
     </section>
   );
