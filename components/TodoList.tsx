@@ -3,22 +3,31 @@
 import { Todo } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { deleteTodo } from "@/app/actions/deleteTodo";
 
 interface TodoListProps {
   todos: Todo[];
-  onDelete: (id: number) => void; // Add the onDelete prop
+  onDelete: (id: number) => void;
 }
 
 export default function TodoList({ todos, onDelete }: TodoListProps) {
   const { toast } = useToast();
 
-  const handleDelete = (id: number) => {
-    onDelete(id);
-    toast({
-      variant: "destructive",
-      title: "Todo deleted",
-      description: "The todo has been removed from the database.",
-    });
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteTodo(id);
+      onDelete(id);
+      toast({
+        variant: "destructive",
+        title: "Todo deleted",
+        description: "The todo has been removed from the database.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete todo",
+      });
+    }
   };
 
   return (
@@ -28,7 +37,7 @@ export default function TodoList({ todos, onDelete }: TodoListProps) {
           <span className="text-medium">{todo.title}</span>
           <Button 
             variant="destructive"
-            onClick={() => handleDelete(todo.id)} // Call handleDelete with the todo id
+            onClick={() => handleDelete(todo.id)}
           >
             Delete
           </Button>

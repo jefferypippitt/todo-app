@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
-import { Todo } from "@prisma/client"; // Import the Todo type from Prisma client
+import { Todo } from "@prisma/client";
 import { addTodo } from "@/app/actions/addTodo";
 
 const TodoSchema = z.object({
@@ -36,7 +36,7 @@ export function TodoForm({ onAdd }: TodoFormProps) {
   async function onSubmit(data: z.infer<typeof TodoSchema>) {
     try {
       const newTodo = await addTodo(data.title);
-      onAdd(newTodo); // Call onAdd to notify parent component
+      onAdd(newTodo);
       form.reset();
       toast({
         title: "Success",

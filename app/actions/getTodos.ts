@@ -5,15 +5,13 @@ import { revalidatePath } from 'next/cache';
 
 const prisma = new PrismaClient();
 
-export const addTodo = async (title: string) => {
+export const getTodos = async () => {
   try {
-    const newTodo = await prisma.todo.create({
-      data: { title },
-    });
-    return newTodo;
+    const todos = await prisma.todo.findMany();
     revalidatePath('/')
+    return todos;
   } catch (e) {
     console.error(e);
-    throw new Error('Failed to add todo');
+    throw new Error('Failed to fetch todos');
   }
 };

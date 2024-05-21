@@ -3,14 +3,12 @@
 import { Todo } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { deleteTodo } from "@/app/actions/deleteTodo";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
-  TableHeader,
   TableRow,
 } from "@/components/ui/table";
 
@@ -22,13 +20,21 @@ interface TodoTableProps {
 export function TodoTable({ todos, onDelete }: TodoTableProps) {
   const { toast } = useToast();
 
-  const handleDelete = (id: number) => {
-    onDelete(id);
-    toast({
-      variant: "destructive",
-      title: "Todo deleted",
-      description: "The todo has been removed from the database.",
-    });
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteTodo(id);
+      onDelete(id);
+      toast({
+        variant: "destructive",
+        title: "Todo deleted",
+        description: "The todo has been removed from the database.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete todo",
+      });
+    }
   };
 
   return (

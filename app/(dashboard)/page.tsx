@@ -4,27 +4,22 @@ import { useState, useEffect } from "react";
 import { Todo } from "@prisma/client";
 import { TodoForm } from "@/components/TodoForm";
 import { useUser } from "@clerk/nextjs";
+import { TodoTable } from "@/components/TodoTable";
 import { addTodo } from "@/app/actions/addTodo";
 import { deleteTodo } from "@/app/actions/deleteTodo";
-import { useToast } from "@/components/ui/use-toast";
-import { TodoTable } from "@/components/TodoTable";
+import { getTodos } from "@/app/actions/getTodos";
 
 export default function Page() {
   const { user, isLoaded, isSignedIn } = useUser();
-
   const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
     async function fetchTodos() {
       try {
-        const response = await fetch('/api/todos');
-        if (!response.ok) {
-          throw new Error('Failed to fetch todos');
-        }
-        const data = await response.json();
+        const data = await getTodos();
         setTodos(data);
       } catch (error) {
-        console.error('Failed to fetch todos', error);
+        console.error("Failed to fetch todos", error);
       }
     }
     fetchTodos();
@@ -39,21 +34,20 @@ export default function Page() {
       await deleteTodo(id);
       setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
     } catch (error) {
-      console.error('Failed to delete todo', error);
+      console.error("Failed to delete todo", error);
+      // Optional: Display an error message to the user
     }
   };
 
   return (
     <section className="py-10">
       <div className="container">
-        <h3 className="text-2xl font-bold tracking-tight">
-          Welcome back!
-        </h3>
+        <h3 className="text-2xl font-bold tracking-tight">Welcome back!</h3>
         <p className="mt-4">You are logged in as {user?.firstName}</p>
         <p className="text-sm text-muted-foreground">
-          Here&apos;s a list of your tasks
+          Here&apros;s a list of your tasks
         </p>
-        
+
         <TodoForm onAdd={handleAddTodo} />
         <TodoTable todos={todos} onDelete={handleDeleteTodo} />
       </div>
