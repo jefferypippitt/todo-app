@@ -1,21 +1,17 @@
 "use server";
 
 import { PrismaClient } from '@prisma/client';
-import { revalidatePath } from 'next/cache';
 
 const prisma = new PrismaClient();
 
 export const addTodo = async (title: string) => {
   try {
     const newTodo = await prisma.todo.create({
-      data: {
-        title,
-      },
+      data: { title },
     });
-    revalidatePath('/');
     return newTodo;
   } catch (e) {
     console.error(e);
-    throw e;
+    throw new Error('Failed to add todo');
   }
 };

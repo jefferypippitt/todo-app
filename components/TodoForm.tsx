@@ -4,7 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { Todo } from "@prisma/client"; // Import the Todo type from Prisma client
@@ -44,26 +51,28 @@ export function TodoForm({ onAdd }: TodoFormProps) {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-sm space-y-6">
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Todo Title</FormLabel>
-              <FormControl>
-                <Input placeholder="Add a new todo" {...field} />
-              </FormControl>
-              <FormDescription>
-                Enter the title of your todo item.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Add Todo</Button>
-      </form>
-    </Form>
+    <div className="mt-5">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full max-w-sm space-y-6"
+        >
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Enter Todo</FormLabel>
+                <FormControl>
+                  <Input placeholder="Add a new todo" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Add Todo</Button>
+        </form>
+      </Form>
+    </div>
   );
 }
