@@ -70,7 +70,7 @@ export function TodoForm({ onAdd }: TodoFormProps) {
               </FormItem>
             )}
           />
-          <Button type="submit">Add Todo</Button>
+          <Button type="submit">Add</Button>
         </form>
       </Form>
     </div>

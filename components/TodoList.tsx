@@ -12,10 +12,10 @@ export default function TodoList({ todos, onDelete }: TodoListProps) {
   return (
     <ul className="mt-4">
       {todos.map((todo) => (
-        <li key={todo.id} className="flex justify-between items-center px-4 py-2 rounded shadow my-2">
-          <span className="text-lg">{todo.title}</span>
+        <li key={todo.id} className="flex items-center justify-between px-4 py-2 rounded shadow my-2">
+          <span className="text-medium">{todo.title}</span>
           <Button 
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+            variant={"destructive"}
             onClick={() => onDelete(todo.id)} // Call onDelete with the todo id
           >
             Delete
