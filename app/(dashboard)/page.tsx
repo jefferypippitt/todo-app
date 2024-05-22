@@ -5,12 +5,11 @@ import { Todo } from "@prisma/client";
 import { TodoForm } from "@/components/TodoForm";
 import { useUser } from "@clerk/nextjs";
 import { TodoTable } from "@/components/TodoTable";
-import { addTodo } from "@/app/actions/addTodo";
 import { deleteTodo } from "@/app/actions/deleteTodo";
 import { getTodos } from "@/app/actions/getTodos";
 
 export default function Page() {
-  const { user, isLoaded, isSignedIn } = useUser();
+  const { user } = useUser();
   const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
@@ -47,8 +46,12 @@ export default function Page() {
   return (
     <section className="py-10">
       <div className="container">
-        <h3 className="text-2xl font-bold tracking-tight">Welcome back! 👋</h3>
-        <p className="mt-4">You are logged in as {user?.firstName}</p>
+        <h3 className="text-2xl font-bold tracking-tight">
+          Welcome <span className="text-green-400">back!</span> 👋
+        </h3>
+        <p className="mt-4">
+          You are logged in as <strong>{user?.firstName}</strong>
+        </p>
         <p className="text-sm text-muted-foreground">
           Here&apos;s a list of your tasks
         </p>
