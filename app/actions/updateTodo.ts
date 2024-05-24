@@ -1,6 +1,7 @@
 "use server";
 
 import { PrismaClient } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
 
 const prisma = new PrismaClient();
 
@@ -10,6 +11,10 @@ export const updateTodo = async (id: number, title: string) => {
       where: { id },
       data: { title },
     });
+
+     // Revalidate the path to refresh the data
+     revalidatePath('/');
+
     return updatedTodo;
   } catch (e) {
     console.error(e);

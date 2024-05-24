@@ -1,6 +1,7 @@
 "use server";
 
 import { PrismaClient } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
 
 const prisma = new PrismaClient();
 
@@ -18,6 +19,10 @@ export const deleteTodo = async (id: number) => {
     await prisma.todo.delete({
       where: { id },
     });
+
+    // Revalidate the path to refresh the data
+    revalidatePath('/');
+    
   } catch (e) {
     console.error(e);
     throw new Error('Failed to delete todo');
